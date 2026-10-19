@@ -56,12 +56,12 @@ export function ConsoleProvider({ children }: { children: React.ReactNode }) {
       setProjectError("");
       setLoadingProjects(false);
     };
-    window.addEventListener("notiapp:auth-change", handleAuth);
-    window.addEventListener("notiapp:auth-expired", handleAuthExpired);
+    window.addEventListener("EzNotification:auth-change", handleAuth);
+    window.addEventListener("EzNotification:auth-expired", handleAuthExpired);
     return () => {
       window.clearTimeout(timer);
-      window.removeEventListener("notiapp:auth-change", handleAuth);
-      window.removeEventListener("notiapp:auth-expired", handleAuthExpired);
+      window.removeEventListener("EzNotification:auth-change", handleAuth);
+      window.removeEventListener("EzNotification:auth-expired", handleAuthExpired);
     };
   }, [refreshProjects]);
 

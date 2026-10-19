@@ -3,7 +3,7 @@ import "./globals.css";
 import { ConsoleProvider } from "./components/console-state";
 
 export const metadata: Metadata = {
-  title: "NotiApp | Notification console",
+  title: "EzNotification | Notification console",
   description: "Compose notifications and inspect your notification API.",
 };
 

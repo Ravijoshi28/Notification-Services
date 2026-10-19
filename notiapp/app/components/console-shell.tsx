@@ -44,7 +44,7 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
   async function logout() {
     setLoggingOut(true);
     await apiRequest(apiPath("/auth/v1/delete"), { method: "DELETE" });
-    window.dispatchEvent(new Event("notiapp:auth-change"));
+    window.dispatchEvent(new Event("EzNotification:auth-change"));
     setLoggingOut(false);
     router.replace("/v1/auth");
   }
@@ -54,7 +54,7 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
 
   return <div className="app-frame">
     <aside className="sidebar">
-      <Link className="brand" href="/" aria-label="NotiApp home"><span className="brand-mark">n</span><span>notiapp</span><span className="brand-plan">DEV</span></Link>
+      <Link className="brand" href="/" aria-label="EzNotification home"><span className="bg-white rounded-2xl"><img src="/Ezicon.favicon.png" className="rounded-2xl" alt="Logo"></img></span><span>EzNotification</span><span className="brand-plan">DEV</span></Link>
       <div className="workspace-picker">
         <span className="workspace-avatar">{(projects.find(project => project.id === projectId)?.name || "N").slice(0, 1).toUpperCase()}</span>
         <label className="sr-only" htmlFor="workspace">Selected project</label>
