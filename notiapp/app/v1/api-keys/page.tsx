@@ -65,7 +65,7 @@ export default function ApiKeys() {
     catch { setMessage("Clipboard is unavailable. Select the key and copy it manually."); }
   }
 
-  return <ConsoleShell><section className="page-heading"><div className="heading-copy"><p className="eyebrow">ACCESS / CREDENTIALS</p><h1>API keys</h1><p>Create and revoke project credentials. The full key is returned only when it is created.</p></div><div className="heading-actions"><Link className="button" href="/v1/projects">Projects</Link></div></section>
+  return <ConsoleShell><section className="page-heading"><div className="heading-copy"><p className="eyebrow">ACCESS / CREDENTIALS</p><h1>API keys</h1><p>Create and revoke project credentials. The full key is returned only when it is created. Key can be copied only one time that is during creation copy it and store in your backend env file.This is for security purpose.</p></div><div className="heading-actions"><Link className="button" href="/v1/projects">Projects</Link></div></section>
     {!signedIn && <div className="alert" style={{ marginBottom: 15 }}>Sign in to manage project API keys. <Link className="text-link" href="/v1/auth">Open sign in</Link>.</div>}
     {signedIn && !projectId && <div className="panel empty-state"><strong>Select or create a project</strong><p>API keys belong to a project. Pick one in the sidebar or create a project first.</p><Link className="button primary" href="/v1/projects">Manage projects</Link></div>}
     {signedIn && projectId && <div className="section-stack">

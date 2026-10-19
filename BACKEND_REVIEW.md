@@ -29,4 +29,17 @@ Authentication failure and the empty email-service return were reproduced withou
 
 The console is available at `/`, `/v1`, and `/v1/dashboard`. Start it with `npm run dev` in `notiapp`. It defaults to `http://localhost:4000`; override with `NEXT_PUBLIC_API_URL` or edit the connection field. API keys stay in component memory. Requests use the controller's current data envelope, scalar email channel, and metaData field. Backend blockers remain visible, and response status is never presented as confirmed delivery.
 
-# current progress working on smtp connection and it verification method lets take some rest
+# current progress working on push-notification connection and it verification method 
+
+- schema
+ message 
+ heading 
+ organization
+ status
+ attempts
+ targetId
+ error
+ createdAt
+ UpdatedAt
+ lastAppempt
+ projectId

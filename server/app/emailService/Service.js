@@ -34,13 +34,14 @@ export async function EmailService(requestId){
             }
         })
 
-       await Mailer(requestId);
+       const delivery=await Mailer(requestId);
 
        await prisma.email.update({
         where:{id:requestId},
         data:{
             status:"sent",
             sentAt:new Date(),
+            messageId:delivery.messageId,
         }
        })
 
@@ -92,9 +93,16 @@ async function Mailer(requestId){
         },
     })
 
-    await transporter.sendMail({
-        from:details.project.smtp.email,
+    return transporter.sendMail({
+        from:{
+            name:details.project.smtp.company,
+            address:details.project.smtp.email,
+        },
         to:details.recipientEmail,
+        envelope:{
+            from:details.project.smtp.email,
+            to:[details.recipientEmail],
+        },
         subject:details.subject,
         text:details.body
     })

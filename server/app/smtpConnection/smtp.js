@@ -65,7 +65,7 @@ export async function SMTPconnection(req,res){
                 },
             })
 
-            return await sendVerification(email,token,res,202);
+            return await sendVerification({host,port:Number(port),secure:Number(port)===465,user,password,email,token,res,status:202});
         }
 
        
@@ -98,7 +98,7 @@ export async function SMTPconnection(req,res){
                 }
         })
 
-        return await sendVerification(email,token,res,200);
+        return await sendVerification({host,port:Number(port),secure:Number(port)===465,user,password,email,token,res,status:200});
 
     }catch(error){
         ErrorMsg(error)
@@ -106,14 +106,15 @@ export async function SMTPconnection(req,res){
     }
 }
 
-async function sendVerification(email,token,res,status){
-        const transporter=new nodemailer.createTransport({
-            service:"gmail",
-            auth:{
-                user:process.env.Email_User,
-                pass:process.env.Email_pass
-            }
-        })
+async function sendVerification({host,port,secure,user,password,email,token,res,status}){
+        // Verify through the SMTP account the user just configured. This also
+        // supports test inboxes such as Ethereal without global mail settings.
+        const transporter=nodemailer.createTransport({
+            host,
+            port,
+            secure,
+            auth:{user,pass:password},
+        });
 
         const baseUrl=process.env.APP_URL;
         if(!baseUrl){
@@ -122,7 +123,7 @@ async function sendVerification(email,token,res,status){
         const verifyUrl=`${baseUrl.replace(/\/$/,"")}/appNoti/api/v1/smtp/verify-email?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
 
         await transporter.sendMail({
-            from:process.env.Email_User,
+            from:email,
             to:email,
             subject:"Email Verification so SMTP can be Connected",
             text:"Click on the button to verify the Email.--Note This is a one time verification do not share this message. If u didnt verify now u can come any time and verify later .No other verification link will be sended after this .",

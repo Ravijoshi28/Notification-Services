@@ -14,10 +14,12 @@ const navigation = [
     { href: "/v1/api-keys", label: "API keys", icon: "⌘" },
   ] },
   { title: "DELIVERY", items: [
+    { href: "/v1/service-test", label: "Test services", icon: "✓" },
     { href: "/v1/smtp", label: "SMTP settings", icon: "✉" },
     { href: "/v1/in-app", label: "In-app", icon: "▣", soon: true },
     { href: "/v1/sms", label: "SMS", icon: "▤", soon: true },
   ] },
+  { title: "PUSH", items: [{ href: "/v1/push", label: "Push notifications", icon: "P" }] },
 ];
 
 export default function ConsoleShell({ children }: { children: React.ReactNode }) {
@@ -31,7 +33,7 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
   useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
 
   const isAccountPage = pathname === "/v1/auth";
-  const requiresSession = ["/v1/projects", "/v1/api-keys", "/v1/smtp"].includes(pathname);
+  const requiresSession = ["/v1/projects", "/v1/api-keys", "/v1/smtp", "/v1/push", "/v1/service-test"].includes(pathname);
 
   useEffect(() => {
     if (loadingProjects) return;

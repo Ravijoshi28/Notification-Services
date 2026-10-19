@@ -16,6 +16,14 @@ enum EmailStatus {
   unknown
 }
 
+enum PushStatus {
+  queued
+  sending
+  retry
+  sent
+  failed
+}
+
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
@@ -45,10 +53,13 @@ model Project {
   ownerId   String
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+  domain    String?
   owner     User        @relation(fields: [ownerId], references: [id], onDelete: Restrict)
   apiKeys   ApiKey[]
   smtp      SmtpConfig?
   emails    Email[]
+  pushSubscriptions PushSubscription[]
+  pushNotifications PushNotification[]
 
   @@index([ownerId])
 }
@@ -107,5 +118,43 @@ model Email {
 
   @@unique([projectId, requestId])
   @@index([projectId, createdAt])
+  @@index([status, updatedAt])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, userId])
+}
+
+model PushNotification {
+  id             String     @id @default(cuid())
+  projectId      String
+  userId         String
+  requestId      String
+  header         String
+  body           String
+  organization   String
+  payload        Json
+  status         PushStatus @default(queued)
+  attempts       Int        @default(0)
+  error          String?
+  idempotencyKey String
+  sentAt         DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  project        Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, requestId])
+  @@index([projectId, userId, createdAt])
   @@index([status, updatedAt])
 }

@@ -7,6 +7,7 @@ import SmtpConnector from "../app/smtpConnection/route.js"
 import ApiConnector from "../app/apiConnector/router.js"
 import Project from "../app/projectsCreator/route.js"
 import Auth from "../app/Authentication/router.js"
+import PushNotification from "../app/pushNotification/route.js"
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/appNoti/api",SmtpConnector)
 app.use("/appNoti/api",ApiConnector)
 app.use("/appNoti/api",Project)
 app.use("/appNoti/api",Auth)
+app.use("/appNoti/api",PushNotification)
 
 
 app.listen(PORT ,()=>{
